@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BrainSight | Results</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .neuro-gradient {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .medical-gradient {
+            background: linear-gradient(135deg, #0d324d 0%, #7f5a83 100%);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .action-buttons a {
+                width: 100%;
+            }
+
+            .result-icon {
+                font-size: 2rem !important;
+            }
+
+            .result-text h2 {
+                font-size: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="neuro-gradient p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-brain text-white text-2xl"></i>
+                <h1 class="text-white font-bold text-xl md:text-2xl">BrainSight</h1>
+            </div>
+            <a href="{{ url_for('predict') }}" class="text-white hover:text-purple-200 transition">
+                <i class="fas fa-home text-xl"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Results Section -->
+    <main class="container mx-auto px-4 py-8 md:py-12">
+        <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+            <div class="medical-gradient p-6 text-white">
+                <h2 class="text-2xl font-bold flex items-center">
+                    <i class="fas fa-diagnoses mr-3"></i> Detection Results
+                </h2>
+                <p class="text-purple-100">Brain tumor analysis based on your MRI scan</p>
+            </div>
+
+            <div class="p-6 md:p-8 text-center">
+                <!-- Prediction Result -->
+                <div class="mb-8">
+                    <div class="inline-block bg-purple-50 rounded-full p-4 mb-4">
+                        {% if label == 'glioma' %}
+                        <i class="fas fa-brain text-purple-600 text-4xl result-icon"></i>
+                        {% elif label == 'meningioma' %}
+                        <i class="fas fa-procedures text-purple-600 text-4xl result-icon"></i>
+                        {% elif label == 'notumor' %}
+                        <i class="fas fa-check-circle text-green-500 text-4xl result-icon"></i>
+                        {% elif label == 'pituitary' %}
+                        <i class="fas fa-search text-blue-600 text-4xl"></i>
+                        {% else %}
+                        <i class="fas fa-question-circle text-gray-500 text-4xl result-icon"></i>
+                        {% endif %}
+                    </div>
+
+                    <div class="result-text">
+                        {% if label == 'glioma' %}
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Glioma Tumor Detected</h2>
+                        <p class="text-gray-700 text-left">
+                            Gliomas are tumors that begin in the glial cells of the brain. They can vary in
+                            aggressiveness
+                            and may affect brain function depending on their location and size. Please consult with a
+                            neurosurgeon
+                            for further evaluation and treatment options.
+                        </p>
+
+                        {% elif label == 'meningioma' %}
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Meningioma Tumor Detected</h2>
+                        <p class="text-gray-700 text-left">
+                            Meningiomas are typically non-cancerous tumors that form in the meninges, the membranes
+                            covering
+                            the brain and spinal cord. While often slow-growing, they may require surgical intervention
+                            depending
+                            on size and location. Consultation with a specialist is recommended.
+                        </p>
+
+                        {% elif label == 'notumor' %}
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">No Tumor Detected</h2>
+                        <p class="text-gray-700 text-left">
+                            The MRI scan does not indicate the presence of a brain tumor. However, this AI analysis is
+                            not a substitute
+                            for professional medical diagnosis. If you have symptoms or concerns, please consult with a
+                            healthcare provider.
+                        </p>
+
+                        {% elif label == 'pituitary' %}
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Pituitary Tumor Detected</h2>
+                        <p class="text-gray-700 text-left">
+                            Pituitary tumors originate in the pituitary gland and may influence hormone levels and body
+                            functions. Treatment depends on tumor size and hormonal activity. An endocrinologist should
+                            evaluate
+                            any hormonal imbalances caused by the tumor.
+                        </p>
+
+                        {% else %}
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Unknown Prediction</h2>
+                        <p class="text-gray-700 text-left">
+                            The model could not confidently identify the tumor category. This may be due to image
+                            quality,
+                            unusual tumor characteristics, or other factors. Please try another image or consult
+                            directly with
+                            a neuroradiologist for a professional diagnosis.
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Medical Disclaimer -->
+                <div class="bg-purple-50 p-4 md:p-6 rounded-lg mb-8 text-left">
+                    <h4 class="font-bold text-gray-800 mb-3 flex items-center">
+                        <i class="fas fa-exclamation-triangle text-purple-600 mr-2"></i> Important Note
+                    </h4>
+                    <p class="text-gray-700 text-sm">
+                        This AI-powered analysis is intended for informational purposes only and should not replace
+                        professional medical advice.
+                        The results are generated via a machine learning model and may require verification through
+                        clinical evaluation.
+                        Always consult with a qualified healthcare provider for an accurate diagnosis and appropriate
+                        treatment.
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4 action-buttons">
+                    <a href="{{ url_for('predict') }}"
+                        class="medical-gradient text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-redo mr-2"></i> Analyze Another Scan
+                    </a>
+                    <a href="{{ url_for('index') }}"
+                        class="border-2 border-purple-600 text-purple-600 py-3 px-6 rounded-lg font-semibold hover:bg-purple-50 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-home mr-2"></i> Return Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400 text-sm">
+                &copy; 2023 BrainSight. All rights reserved.
+                <span class="block sm:inline">"See deeper. Diagnose smarter."</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Prevent zooming on mobile
+        document.addEventListener('touchmove', function (event) {
+            if (event.scale !== 1) { event.preventDefault(); }
+        }, { passive: false });
+    </script>
+</body>
+
+</html>
