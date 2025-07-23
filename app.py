@@ -26,9 +26,12 @@ class Feedback(db.Model):
 
     def __repr__(self):
         return f"{self.name} - {self.email} - {self.message}"
-    
-# Load your Keras model (replace with your path)
-model = tf.keras.models.load_model('cnn_model.h5')
+
+# Load the TFLite model
+interpreter = tf.lite.Interpreter(model_path="model.tflite")
+interpreter.allocate_tensors()
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
 
 # Check file extension
 def allowed_file(filename):
@@ -55,13 +58,15 @@ def predict():
             # Read image in-memory
             image = Image.open(io.BytesIO(file.read())).convert('RGB')
             image = image.resize((150, 150))  # resize to match your model input
-            image = np.array(image) / 255.0
+            image = np.array(image).astype(np.float32) / 255.0
             image = np.expand_dims(image, axis=0)  # add batch dimension
 
-            # Predict
+            # Predict using TFLite
             class_names = ['glioma', 'meningioma', 'notumor', 'pituitary']
 
-            prediction = model.predict(image)
+            interpreter.set_tensor(input_details[0]['index'], image)
+            interpreter.invoke()
+            prediction = interpreter.get_tensor(output_details[0]['index'])
             predicted_index = np.argmax(prediction, axis=1)[0]
             predicted_label = class_names[predicted_index]
 
@@ -100,4 +105,4 @@ def download_sample(filename):
     return send_from_directory(directory=sample_folder, path=filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)
