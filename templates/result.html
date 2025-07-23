@@ -157,10 +157,11 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row justify-center gap-4 action-buttons">
-                    <a href="{{ url_for('predict') }}"
+                    <a href="{{ url_for('predict') }}#predict"
                         class="medical-gradient text-white py-3 px-6 rounded-lg font-semibold hover:opacity-90 transition duration-300 flex items-center justify-center">
                         <i class="fas fa-redo mr-2"></i> Analyze Another Scan
                     </a>
+
                     <a href="{{ url_for('index') }}"
                         class="border-2 border-purple-600 text-purple-600 py-3 px-6 rounded-lg font-semibold hover:bg-purple-50 transition duration-300 flex items-center justify-center">
                         <i class="fas fa-home mr-2"></i> Return Home
