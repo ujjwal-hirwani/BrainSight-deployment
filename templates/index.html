@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- Mobile-friendly viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainSight | AI-Powered Brain Tumor Detection</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -11,6 +12,16 @@
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
+            /* Ensures proper scrolling on iOS */
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            width: 100%;
+            overflow-x: hidden;
+            /* Allows vertical scrolling */
+            touch-action: pan-y;
         }
 
         .neuro-gradient {

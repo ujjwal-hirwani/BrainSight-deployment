@@ -3,11 +3,26 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Simplified viewport tag - removed restrictive attributes -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BrainSight | Results</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        html {
+            /* Ensure proper scrolling on mobile */
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body {
+            /* Enable touch scrolling */
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         .neuro-gradient {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
@@ -180,13 +195,6 @@
             </p>
         </div>
     </footer>
-
-    <script>
-        // Prevent zooming on mobile
-        document.addEventListener('touchmove', function (event) {
-            if (event.scale !== 1) { event.preventDefault(); }
-        }, { passive: false });
-    </script>
 </body>
 
 </html>
