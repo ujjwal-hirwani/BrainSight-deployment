@@ -105,4 +105,4 @@ def download_sample(filename):
     return send_from_directory(directory=sample_folder, path=filename, as_attachment=True)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
