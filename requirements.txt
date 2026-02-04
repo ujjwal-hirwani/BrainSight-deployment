@@ -4,5 +4,5 @@ numpy
 Pillow
 opencv-python
 torch
-tflite-runtime
+tensorflow
 gunicorn
