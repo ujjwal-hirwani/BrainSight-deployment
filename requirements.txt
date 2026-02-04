@@ -5,3 +5,4 @@ Pillow
 opencv-python
 torch
 tflite-runtime
+gunicorn
